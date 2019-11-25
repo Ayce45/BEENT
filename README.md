@@ -10,11 +10,11 @@
 
 ## Author
 
-👤 **Evan JUGE, Baptiste Messin, Nicolas GROSPERRIN**
+👤 **Evan JUGE, Baptiste MESSIN, Nicolas GROSPERRIN**
 
-* Website: evanjuge.fr, baptistemessin.fr
+* Website: evanjuge.fr, baptistemessin.fr, 
 * Twitter: [@AyceFR](https://twitter.com/AyceFR)
-* Github: [@Ayce45, BaptisteMSN](https://github.com/Ayce45, BaptisteMSN)
+* Github: [@Ayce45, @BaptisteMsn](https://github.com/Ayce45, https://github.com/BaptisteMsn)
 
 ## Show your support
 
