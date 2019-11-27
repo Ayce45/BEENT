@@ -1,24 +1,24 @@
-<h1 align="center">Welcome to BEENT 👋</h1>
-<p>
-  <img alt="Version" src="https://img.shields.io/badge/version-1-blue.svg?cacheSeconds=2592000" />
-  <a href="https://twitter.com/AyceFR" target="_blank">
-    <img alt="Twitter: AyceFR" src="https://img.shields.io/twitter/follow/AyceFR.svg?style=social" />
-  </a>
-</p>
+<h1 align="center">Bienvenue dans BEENT 👋</h1>
 
-> Gestion d'emploi du temps
+> Gestion d'emploi du temps sous Symphony
 
-## Author
+## Equipe
+ - 👤 Baptiste MESSIN 
+ - 👤 Nicolas GROSPERRIN 
+ - 👤 Souleymane DIALLO
 
-👤 **Evan JUGE, Baptiste MESSIN, Nicolas GROSPERRIN**
+## Versioning
+Github => https://github.com/Ayce45/BEENT
 
-* Website: evanjuge.fr, baptistemessin.fr, 
-* Twitter: [@AyceFR](https://twitter.com/AyceFR)
-* Github: [@Ayce45, @BaptisteMsn](https://github.com/Ayce45, https://github.com/BaptisteMsn)
+## Outils
+ - MCD => JMerise 
+ - Requête => phpMyAdmin 
+ - Interface => Adobe XD
 
-## Show your support
+## Interface
+![Capture d’écran_2019-11-27_12-44-43](https://user-images.githubusercontent.com/32338891/69720804-b95aae00-1113-11ea-827b-029cca20cc23.png)
 
-Give a ⭐️ if this project helped you!
+## MCD
+![BEENT](https://user-images.githubusercontent.com/32338891/69720740-992aef00-1113-11ea-8c90-cfbc43f2008a.png)
 
-***
-_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
+## Déclencheurs, contraintes, requêtes
