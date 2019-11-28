@@ -6,6 +6,7 @@
  - 👤 Baptiste MESSIN 
  - 👤 Nicolas GROSPERRIN 
  - 👤 Souleymane DIALLO
+  - 👤 Evan JUGE
 
 ## Versioning
 Github => https://github.com/Ayce45/BEENT
