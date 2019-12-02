@@ -23,3 +23,5 @@ Github => https://github.com/Ayce45/BEENT
 ![BEENT](https://user-images.githubusercontent.com/32338891/69720740-992aef00-1113-11ea-8c90-cfbc43f2008a.png)
 
 ## Déclencheurs, contraintes, requêtes
+
+Vacances scolaire, répétition
