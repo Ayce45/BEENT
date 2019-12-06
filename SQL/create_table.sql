@@ -1,170 +1,370 @@
-#------------------------------------------------------------
-#        Script MySQL.
-#------------------------------------------------------------
+-- phpMyAdmin SQL Dump
+-- version 4.9.1
+-- https://www.phpmyadmin.net/
+--
+-- Hôte : localhost
+-- Généré le :  ven. 06 déc. 2019 à 13:17
+-- Version du serveur :  10.4.8-MariaDB
+-- Version de PHP :  7.1.33
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
 
 
-#------------------------------------------------------------
-# Table: Enseignant
-#------------------------------------------------------------
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
-CREATE TABLE Enseignant(
-        id     Int  Auto_increment  NOT NULL ,
-        nom    Varchar (150) ,
-        prenom Varchar (150) ,
-        rue    Varchar (150) NOT NULL ,
-        cp     Varchar (5) NOT NULL ,
-        ville  Varchar (75) NOT NULL ,
-        tel    Varchar (15) ,
-        email  Varchar (150)
-	,CONSTRAINT Enseignant_PK PRIMARY KEY (id)
-)ENGINE=InnoDB;
+--
+-- Base de données :  `beent`
+--
 
+-- --------------------------------------------------------
 
-#------------------------------------------------------------
-# Table: Salle
-#------------------------------------------------------------
+--
+-- Structure de la table `Annee`
+--
 
-CREATE TABLE Salle(
-        id       Int  Auto_increment  NOT NULL ,
-        code     Varchar (150) ,
-        capacite Int ,
-        pc       Bool
-	,CONSTRAINT Salle_PK PRIMARY KEY (id)
-)ENGINE=InnoDB;
+CREATE TABLE `Annee` (
+  `id` int(11) NOT NULL,
+  `code` varchar(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
 
-#------------------------------------------------------------
-# Table: Filiere
-#------------------------------------------------------------
+--
+-- Structure de la table `Classe`
+--
 
-CREATE TABLE Filiere(
-        id      Int  Auto_increment  NOT NULL ,
-        libelle Varchar (150)
-	,CONSTRAINT Filiere_PK PRIMARY KEY (id)
-)ENGINE=InnoDB;
+CREATE TABLE `Classe` (
+  `id` int(11) NOT NULL,
+  `code` int(11) DEFAULT NULL,
+  `id_Filiere` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
 
-#------------------------------------------------------------
-# Table: Classe
-#------------------------------------------------------------
+--
+-- Structure de la table `Cours`
+--
 
-CREATE TABLE Classe(
-        id         Int  Auto_increment  NOT NULL ,
-        code       Int ,
-        id_Filiere Int NOT NULL
-	,CONSTRAINT Classe_PK PRIMARY KEY (id)
+CREATE TABLE `Cours` (
+  `id` int(11) NOT NULL,
+  `id_Salle` int(11) NOT NULL,
+  `id_Matiere` int(11) NOT NULL,
+  `id_Groupe` int(11) NOT NULL,
+  `debut` datetime NOT NULL,
+  `fin` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-	,CONSTRAINT Classe_Filiere_FK FOREIGN KEY (id_Filiere) REFERENCES Filiere(id)
-)ENGINE=InnoDB;
+-- --------------------------------------------------------
 
+--
+-- Structure de la table `Enseignant`
+--
 
-#------------------------------------------------------------
-# Table: Groupe
-#------------------------------------------------------------
+CREATE TABLE `Enseignant` (
+  `id` int(11) NOT NULL,
+  `nom` varchar(150) DEFAULT NULL,
+  `prenom` varchar(150) DEFAULT NULL,
+  `rue` varchar(150) NOT NULL,
+  `cp` varchar(5) NOT NULL,
+  `ville` varchar(75) NOT NULL,
+  `tel` varchar(15) DEFAULT NULL,
+  `email` varchar(150) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE Groupe(
-        id        Int  Auto_increment  NOT NULL ,
-        code      Int ,
-        capacite  Int ,
-        id_Classe Int NOT NULL
-	,CONSTRAINT Groupe_PK PRIMARY KEY (id)
+-- --------------------------------------------------------
 
-	,CONSTRAINT Groupe_Classe_FK FOREIGN KEY (id_Classe) REFERENCES Classe(id)
-)ENGINE=InnoDB;
+--
+-- Structure de la table `Enseignant_Matiere`
+--
 
+CREATE TABLE `Enseignant_Matiere` (
+  `id` int(11) NOT NULL,
+  `id_Enseignant` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-#------------------------------------------------------------
-# Table: Matiere
-#------------------------------------------------------------
+-- --------------------------------------------------------
 
-CREATE TABLE Matiere(
-        id      Int  Auto_increment  NOT NULL ,
-        libelle Varchar (150) NOT NULL
-	,CONSTRAINT Matiere_PK PRIMARY KEY (id)
-)ENGINE=InnoDB;
+--
+-- Structure de la table `Filiere`
+--
 
+CREATE TABLE `Filiere` (
+  `id` int(11) NOT NULL,
+  `libelle` varchar(150) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-#------------------------------------------------------------
-# Table: Annee
-#------------------------------------------------------------
+-- --------------------------------------------------------
 
-CREATE TABLE Annee(
-        id   Int  Auto_increment  NOT NULL ,
-        code Varchar (4) NOT NULL
-	,CONSTRAINT Annee_PK PRIMARY KEY (id)
-)ENGINE=InnoDB;
+--
+-- Structure de la table `Groupe`
+--
 
+CREATE TABLE `Groupe` (
+  `id` int(11) NOT NULL,
+  `code` int(11) DEFAULT NULL,
+  `capacite` int(11) DEFAULT NULL,
+  `id_Classe` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-#------------------------------------------------------------
-# Table: Semestre
-#------------------------------------------------------------
+-- --------------------------------------------------------
 
-CREATE TABLE Semestre(
-        id       Int  Auto_increment  NOT NULL ,
-        code     Int NOT NULL ,
-        id_Annee Int NOT NULL
-	,CONSTRAINT Semestre_PK PRIMARY KEY (id)
+--
+-- Structure de la table `Matiere`
+--
 
-	,CONSTRAINT Semestre_Annee_FK FOREIGN KEY (id_Annee) REFERENCES Annee(id)
-)ENGINE=InnoDB;
+CREATE TABLE `Matiere` (
+  `id` int(11) NOT NULL,
+  `libelle` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
 
-#------------------------------------------------------------
-# Table: Cours
-#------------------------------------------------------------
+--
+-- Structure de la table `Matiere_Semestre`
+--
 
-CREATE TABLE Cours(
-        id         Int NOT NULL ,
-        id_Salle   Int NOT NULL ,
-        id_Matiere Int NOT NULL ,
-        id_Groupe  Int NOT NULL ,
-        debut      Date ,
-        fin        Date
-	,CONSTRAINT Cours_PK PRIMARY KEY (id,id_Salle,id_Matiere,id_Groupe)
+CREATE TABLE `Matiere_Semestre` (
+  `id` int(11) NOT NULL,
+  `id_Semestre` int(11) NOT NULL,
+  `id_Filiere` int(11) NOT NULL,
+  `id_Type` int(11) NOT NULL,
+  `heure` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-	,CONSTRAINT Cours_Enseignant_FK FOREIGN KEY (id) REFERENCES Enseignant(id)
-	,CONSTRAINT Cours_Salle0_FK FOREIGN KEY (id_Salle) REFERENCES Salle(id)
-	,CONSTRAINT Cours_Matiere1_FK FOREIGN KEY (id_Matiere) REFERENCES Matiere(id)
-	,CONSTRAINT Cours_Groupe2_FK FOREIGN KEY (id_Groupe) REFERENCES Groupe(id)
-)ENGINE=InnoDB;
+-- --------------------------------------------------------
 
+--
+-- Structure de la table `Salle`
+--
 
-#------------------------------------------------------------
-# Table: Enseignant_Matiere
-#------------------------------------------------------------
+CREATE TABLE `Salle` (
+  `id` int(11) NOT NULL,
+  `code` varchar(150) DEFAULT NULL,
+  `capacite` int(11) DEFAULT NULL,
+  `pc` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE Enseignant_Matiere(
-        id            Int NOT NULL ,
-        id_Enseignant Int NOT NULL
-	,CONSTRAINT Enseignant_Matiere_PK PRIMARY KEY (id,id_Enseignant)
+-- --------------------------------------------------------
 
-	,CONSTRAINT Enseignant_Matiere_Matiere_FK FOREIGN KEY (id) REFERENCES Matiere(id)
-	,CONSTRAINT Enseignant_Matiere_Enseignant0_FK FOREIGN KEY (id_Enseignant) REFERENCES Enseignant(id)
-)ENGINE=InnoDB;
+--
+-- Structure de la table `Semestre`
+--
 
+CREATE TABLE `Semestre` (
+  `id` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
+  `id_Annee` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-#------------------------------------------------------------
-# Table: Matiere_Semestre
-#------------------------------------------------------------
+-- --------------------------------------------------------
 
-CREATE TABLE Matiere_Semestre(
-        id          Int NOT NULL ,
-        id_Semestre Int NOT NULL ,
-        id_Filiere  Int NOT NULL ,
-        heure       Int NOT NULL
-	,CONSTRAINT Matiere_Semestre_PK PRIMARY KEY (id,id_Semestre,id_Filiere)
+--
+-- Structure de la table `Type`
+--
 
-	,CONSTRAINT Matiere_Semestre_Matiere_FK FOREIGN KEY (id) REFERENCES Matiere(id)
-	,CONSTRAINT Matiere_Semestre_Semestre0_FK FOREIGN KEY (id_Semestre) REFERENCES Semestre(id)
-	,CONSTRAINT Matiere_Semestre_Filiere1_FK FOREIGN KEY (id_Filiere) REFERENCES Filiere(id)
-)ENGINE=InnoDB;
+CREATE TABLE `Type` (
+  `id` int(11) NOT NULL,
+  `libelle` varchar(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-#------------------------------------------------------------
-# Table: Type
-#------------------------------------------------------------
+--
+-- Index pour les tables déchargées
+--
 
-CREATE TABLE Type(
-        id      Int  Auto_increment  NOT NULL ,
-        libelle Varchar (4) NOT NULL
-	,CONSTRAINT Type_PK PRIMARY KEY (id)
-)ENGINE=InnoDB;
+--
+-- Index pour la table `Annee`
+--
+ALTER TABLE `Annee`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `Classe`
+--
+ALTER TABLE `Classe`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `Classe_Filiere_FK` (`id_Filiere`);
+
+--
+-- Index pour la table `Cours`
+--
+ALTER TABLE `Cours`
+  ADD PRIMARY KEY (`id`,`id_Salle`,`id_Matiere`,`id_Groupe`),
+  ADD KEY `Cours_Salle0_FK` (`id_Salle`),
+  ADD KEY `Cours_Matiere1_FK` (`id_Matiere`),
+  ADD KEY `Cours_Groupe2_FK` (`id_Groupe`);
+
+--
+-- Index pour la table `Enseignant`
+--
+ALTER TABLE `Enseignant`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `Enseignant_Matiere`
+--
+ALTER TABLE `Enseignant_Matiere`
+  ADD PRIMARY KEY (`id`,`id_Enseignant`),
+  ADD KEY `Enseignant_Matiere_Enseignant0_FK` (`id_Enseignant`);
+
+--
+-- Index pour la table `Filiere`
+--
+ALTER TABLE `Filiere`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `Groupe`
+--
+ALTER TABLE `Groupe`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `Groupe_Classe_FK` (`id_Classe`);
+
+--
+-- Index pour la table `Matiere`
+--
+ALTER TABLE `Matiere`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `Matiere_Semestre`
+--
+ALTER TABLE `Matiere_Semestre`
+  ADD PRIMARY KEY (`id`,`id_Semestre`,`id_Filiere`,`id_Type`),
+  ADD KEY `Matiere_Semestre_Semestre0_FK` (`id_Semestre`),
+  ADD KEY `Matiere_Semestre_Filiere1_FK` (`id_Filiere`),
+  ADD KEY `Matiere_Semestre_Type2_FK` (`id_Type`);
+
+--
+-- Index pour la table `Salle`
+--
+ALTER TABLE `Salle`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `Semestre`
+--
+ALTER TABLE `Semestre`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `Semestre_Annee_FK` (`id_Annee`);
+
+--
+-- Index pour la table `Type`
+--
+ALTER TABLE `Type`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `Annee`
+--
+ALTER TABLE `Annee`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `Classe`
+--
+ALTER TABLE `Classe`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `Enseignant`
+--
+ALTER TABLE `Enseignant`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `Filiere`
+--
+ALTER TABLE `Filiere`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `Groupe`
+--
+ALTER TABLE `Groupe`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `Matiere`
+--
+ALTER TABLE `Matiere`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `Salle`
+--
+ALTER TABLE `Salle`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `Semestre`
+--
+ALTER TABLE `Semestre`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `Type`
+--
+ALTER TABLE `Type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `Classe`
+--
+ALTER TABLE `Classe`
+  ADD CONSTRAINT `Classe_Filiere_FK` FOREIGN KEY (`id_Filiere`) REFERENCES `Filiere` (`id`);
+
+--
+-- Contraintes pour la table `Cours`
+--
+ALTER TABLE `Cours`
+  ADD CONSTRAINT `Cours_Enseignant_FK` FOREIGN KEY (`id`) REFERENCES `Enseignant` (`id`),
+  ADD CONSTRAINT `Cours_Groupe2_FK` FOREIGN KEY (`id_Groupe`) REFERENCES `Groupe` (`id`),
+  ADD CONSTRAINT `Cours_Matiere1_FK` FOREIGN KEY (`id_Matiere`) REFERENCES `Matiere` (`id`),
+  ADD CONSTRAINT `Cours_Salle0_FK` FOREIGN KEY (`id_Salle`) REFERENCES `Salle` (`id`);
+
+--
+-- Contraintes pour la table `Enseignant_Matiere`
+--
+ALTER TABLE `Enseignant_Matiere`
+  ADD CONSTRAINT `Enseignant_Matiere_Enseignant0_FK` FOREIGN KEY (`id_Enseignant`) REFERENCES `Enseignant` (`id`),
+  ADD CONSTRAINT `Enseignant_Matiere_Matiere_FK` FOREIGN KEY (`id`) REFERENCES `Matiere` (`id`);
+
+--
+-- Contraintes pour la table `Groupe`
+--
+ALTER TABLE `Groupe`
+  ADD CONSTRAINT `Groupe_Classe_FK` FOREIGN KEY (`id_Classe`) REFERENCES `Classe` (`id`);
+
+--
+-- Contraintes pour la table `Matiere_Semestre`
+--
+ALTER TABLE `Matiere_Semestre`
+  ADD CONSTRAINT `Matiere_Semestre_Filiere1_FK` FOREIGN KEY (`id_Filiere`) REFERENCES `Filiere` (`id`),
+  ADD CONSTRAINT `Matiere_Semestre_Matiere_FK` FOREIGN KEY (`id`) REFERENCES `Matiere` (`id`),
+  ADD CONSTRAINT `Matiere_Semestre_Semestre0_FK` FOREIGN KEY (`id_Semestre`) REFERENCES `Semestre` (`id`),
+  ADD CONSTRAINT `Matiere_Semestre_Type2_FK` FOREIGN KEY (`id_Type`) REFERENCES `Type` (`id`);
+
+--
+-- Contraintes pour la table `Semestre`
+--
+ALTER TABLE `Semestre`
+  ADD CONSTRAINT `Semestre_Annee_FK` FOREIGN KEY (`id_Annee`) REFERENCES `Annee` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
