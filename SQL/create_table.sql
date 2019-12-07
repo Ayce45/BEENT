@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le :  ven. 06 déc. 2019 à 13:17
+-- Généré le :  sam. 07 déc. 2019 à 20:16
 -- Version du serveur :  10.4.8-MariaDB
 -- Version de PHP :  7.1.33
 
@@ -53,12 +53,32 @@ CREATE TABLE `Classe` (
 
 CREATE TABLE `Cours` (
   `id` int(11) NOT NULL,
+  `id_Enseignant` int(11) NOT NULL,
   `id_Salle` int(11) NOT NULL,
   `id_Matiere` int(11) NOT NULL,
   `id_Groupe` int(11) NOT NULL,
-  `debut` datetime NOT NULL,
-  `fin` datetime NOT NULL
+  `id_Type` int(11) NOT NULL,
+  `debut` datetime DEFAULT NULL,
+  `fin` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déclencheurs `Cours`
+--
+DELIMITER $$
+CREATE TRIGGER `SalleOccupe` BEFORE INSERT ON `Cours` FOR EACH ROW BEGIN
+DECLARE debut DATETIME;
+DECLARE fin DATETIME;
+DECLARE C1 CURSOR FOR SELECT debut,fin FROM Cours where id_Salle = new.id_Salle;
+   OPEN C1;
+   FETCH C1 INTO debut,fin;
+	if new.debut>=debut  and new.debut<fin then
+           signal sqlstate '20000' set message_text = 'Salle déja prise dans la tranche d horaire demandé!';     
+	end if;
+     CLOSE C1;
+End
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -194,10 +214,12 @@ ALTER TABLE `Classe`
 -- Index pour la table `Cours`
 --
 ALTER TABLE `Cours`
-  ADD PRIMARY KEY (`id`,`id_Salle`,`id_Matiere`,`id_Groupe`),
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `Cours_Enseignant_FK` (`id_Enseignant`),
   ADD KEY `Cours_Salle0_FK` (`id_Salle`),
   ADD KEY `Cours_Matiere1_FK` (`id_Matiere`),
-  ADD KEY `Cours_Groupe2_FK` (`id_Groupe`);
+  ADD KEY `Cours_Groupe2_FK` (`id_Groupe`),
+  ADD KEY `Cours_Type3_FK` (`id_Type`);
 
 --
 -- Index pour la table `Enseignant`
@@ -276,6 +298,12 @@ ALTER TABLE `Classe`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `Cours`
+--
+ALTER TABLE `Cours`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `Enseignant`
 --
 ALTER TABLE `Enseignant`
@@ -331,10 +359,11 @@ ALTER TABLE `Classe`
 -- Contraintes pour la table `Cours`
 --
 ALTER TABLE `Cours`
-  ADD CONSTRAINT `Cours_Enseignant_FK` FOREIGN KEY (`id`) REFERENCES `Enseignant` (`id`),
+  ADD CONSTRAINT `Cours_Enseignant_FK` FOREIGN KEY (`id_Enseignant`) REFERENCES `Enseignant` (`id`),
   ADD CONSTRAINT `Cours_Groupe2_FK` FOREIGN KEY (`id_Groupe`) REFERENCES `Groupe` (`id`),
   ADD CONSTRAINT `Cours_Matiere1_FK` FOREIGN KEY (`id_Matiere`) REFERENCES `Matiere` (`id`),
-  ADD CONSTRAINT `Cours_Salle0_FK` FOREIGN KEY (`id_Salle`) REFERENCES `Salle` (`id`);
+  ADD CONSTRAINT `Cours_Salle0_FK` FOREIGN KEY (`id_Salle`) REFERENCES `Salle` (`id`),
+  ADD CONSTRAINT `Cours_Type3_FK` FOREIGN KEY (`id_Type`) REFERENCES `Type` (`id`);
 
 --
 -- Contraintes pour la table `Enseignant_Matiere`
