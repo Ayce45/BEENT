@@ -8,7 +8,7 @@
  - 👤 Souleymane DIALLO
  - 👤 Evan JUGE
 
-## Versioning
+## Arborescence
 Github {
   `Site : https://github.com/Ayce45/BEENT`
 }
