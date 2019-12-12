@@ -62,24 +62,6 @@ CREATE TABLE `Cours` (
   `fin` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Déclencheurs `Cours`
---
-DELIMITER $$
-CREATE TRIGGER `SalleOccupe` BEFORE INSERT ON `Cours` FOR EACH ROW BEGIN
-DECLARE debut DATETIME;
-DECLARE fin DATETIME;
-DECLARE C1 CURSOR FOR SELECT debut,fin FROM Cours where id_Salle = new.id_Salle;
-   OPEN C1;
-   FETCH C1 INTO debut,fin;
-	if new.debut>=debut  and new.debut<fin then
-           signal sqlstate '20000' set message_text = 'Salle déja prise dans la tranche d horaire demandé!';     
-	end if;
-     CLOSE C1;
-End
-$$
-DELIMITER ;
-
 -- --------------------------------------------------------
 
 --
