@@ -35,7 +35,7 @@ Insertion des données {
 }
 
 Interface {
-  `Adobe XD : INTERFACE/SOURCE/*.xd, Image : INTERFACE/RENDU/*.png`
+  `Image : INTERFACE/*.png`
 }
 
 ## Outils
