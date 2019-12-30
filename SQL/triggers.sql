@@ -2,6 +2,7 @@
 #        Script MySQL.
 #------------------------------------------------------------
 
+#Trigger empechant deux cours différents dans la même salle
 CREATE TRIGGER `SalleOccupe` BEFORE INSERT ON `Cours`
  FOR EACH ROW 
 BEGIN
@@ -33,6 +34,7 @@ DECLARE CONTINUE HANDLER FOR NOT FOUND SET done := TRUE;
      
 END
 
+#Trigger empechant un groupe d'avoir 2 cours en même temps
 CREATE TRIGGER 'groupeOccupe' BEFORE INSERT ON 'Cours'
   for each row
 BEGIN
@@ -64,6 +66,7 @@ DECLARE CONTINUE HANDLER FOR NOT FOUND SET done := TRUE;
      
 END
 
+#Trigger empechant un prof de travailler sur plusieurs cours à la fois
 CREATE TRIGGER 'profOccupe' BEFORE INSERT ON 'Cours'
   for each row
 BEGIN
@@ -94,6 +97,7 @@ DECLARE CONTINUE HANDLER FOR NOT FOUND SET done := TRUE;
      
 END
 
+#Trigger empechant un groupe à aller dans une salle trop petite par rapport au nombre de personne de ce groupe
 CREATE TRIGGER 'capaciteSalle' BEFORE INSERT ON 'Cours'
   for each row
 BEGIN
@@ -106,19 +110,16 @@ DECLARE capaciteGroupe INTEGER;
 	end if;
 End
 
-create or replace
-trigger coursTP
-  BEFORE INSERT
-  ON Cours
+#Trigger empechant un TP dans un salle n'ayant pas de pc
+
+CREATE TRIGGER 'coursTP' BEFORE INSERT ON 'Cours'
   for each row
-Declare
-	libelleType varchar2;
-	pcSalle boolean;
 BEGIN
-	select Type.libelle into libelleType from Type, Matiere, Matiere_Semestre where Matiere.id = Matiere_Semestre.id and Matiere_Semestre.id_Type = Type.id and Matiere.id = :new.id_Matiere ;
-	select pc into pcSalle from Salle where id = :new.id_Salle;
-	if (not pcSalle and libelleType = 'TP') then
-		RAISE_APPLICATION_ERROR ( -20006, 'Salle non adapté pour un TP') ;
+DECLARE libelleType VARCHAR(2);
+DECLARE pcSalle INTEGER;
+	select libelle into libelleType from Type WHERE id = new.id_Type ;
+	select pc into pcSalle from Salle where id = new.id_Salle;
+	if (pcSalle=0 and libelleType = 'TP') then
+		signal sqlstate '20011' set message_text = 'Salle non adapté pour un TP' ;
 	end if;
-End;
-/
+END
