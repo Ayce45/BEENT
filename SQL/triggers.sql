@@ -3,7 +3,7 @@
 #------------------------------------------------------------
 
 CREATE TRIGGER `SalleOccupe` BEFORE INSERT ON `Cours`
- FOR EACH ROW BEGIN
+ FOR EACH ROW 
 BEGIN
 DECLARE debutT DATETIME;
 DECLARE finT DATETIME;
@@ -30,16 +30,26 @@ trigger groupeOccupe
   BEFORE INSERT
   ON Cours
   for each row
-DECLARE
-CURSOR C1 IS SELECT * FROM Cours where id_Groupe = :new.id_Groupe;
 BEGIN
-  FOR item in C1 LOOP
-	if :new.debut>=item.debut  and :new.debut<item.fin then
-		RAISE_APPLICATION_ERROR ( -20002, 'Groupe déjà programmé sur un autre cours') ;
+DECLARE debutT DATETIME;
+DECLARE finT DATETIME;
+DECLARE done BOOL DEFAULT FALSE;
+DECLARE C1 CURSOR FOR SELECT debut,fin FROM Cours where id_Groupe = new.id_Groupe;
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET done := TRUE;
+   OPEN C1;
+   read_loop: LOOP
+   	FETCH C1 INTO debutT,finT;
+    	IF done THEN
+  	  		CLOSE C1;
+             LEAVE read_loop;
+        END IF;
+   
+	if new.debut>=debutT  and new.debut<finT then
+           signal sqlstate '20001' set message_text = 'Groupe déjà programmé sur un autre cours';     
 	end if;
-  END LOOP;
-End;
-/
+    end LOOP;
+     
+END
 
 create or replace
 trigger profOccupe
