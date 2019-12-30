@@ -22,13 +22,18 @@ DECLARE CONTINUE HANDLER FOR NOT FOUND SET done := TRUE;
            signal sqlstate '20000' set message_text = 'Salle déja prise dans la tranche d horaire demandé!';     
 	end if;
     end LOOP;
+    
+     if new.fin>debutT  and new.fin<=finT then
+           signal sqlstate '20001' set message_text = 'Salle déja prise dans la tranche d horaire demandé!';     
+	end if;
+    
+    if new.debut<=debutT  and new.fin>=finT then
+           signal sqlstate '20002' set message_text = 'Salle déja prise dans la tranche d horaire demandé!';     
+	end if;
      
 END
 
-create or replace
-trigger groupeOccupe
-  BEFORE INSERT
-  ON Cours
+create trigger 'groupeOccupe' BEFORE INSERT ON 'Cours'
   for each row
 BEGIN
 DECLARE debutT DATETIME;
@@ -48,6 +53,14 @@ DECLARE CONTINUE HANDLER FOR NOT FOUND SET done := TRUE;
            signal sqlstate '20001' set message_text = 'Groupe déjà programmé sur un autre cours';     
 	end if;
     end LOOP;
+    
+     if new.fin>debutT  and new.fin<=finT then
+           signal sqlstate '20002' set message_text = 'Groupe déjà programmé sur un autre cours';     
+	end if;
+    
+    if new.fin<=debutT  and new.fin>=finT then
+           signal sqlstate '20003' set message_text = 'Groupe déjà programmé sur un autre cours';     
+	end if;
      
 END
 
