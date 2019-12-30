@@ -14,8 +14,8 @@ DECLARE CONTINUE HANDLER FOR NOT FOUND SET done := TRUE;
    read_loop: LOOP
    	FETCH C1 INTO debutT,finT;
     	IF done THEN
-  	  		CLOSE C1;
-             LEAVE read_loop;
+  	  	CLOSE C1;
+             	LEAVE read_loop;
         END IF;
    
 	if new.debut>=debutT  and new.debut<finT then
@@ -33,7 +33,7 @@ DECLARE CONTINUE HANDLER FOR NOT FOUND SET done := TRUE;
      
 END
 
-create trigger 'groupeOccupe' BEFORE INSERT ON 'Cours'
+CREATE TRIGGER 'groupeOccupe' BEFORE INSERT ON 'Cours'
   for each row
 BEGIN
 DECLARE debutT DATETIME;
@@ -45,8 +45,8 @@ DECLARE CONTINUE HANDLER FOR NOT FOUND SET done := TRUE;
    read_loop: LOOP
    	FETCH C1 INTO debutT,finT;
     	IF done THEN
-  	  		CLOSE C1;
-             LEAVE read_loop;
+  	  	CLOSE C1;
+            	LEAVE read_loop;
         END IF;
    
 	if new.debut>=debutT  and new.debut<finT then
@@ -64,38 +64,47 @@ DECLARE CONTINUE HANDLER FOR NOT FOUND SET done := TRUE;
      
 END
 
-create or replace
-trigger profOccupe
-  BEFORE INSERT
-  ON Cours
+CREATE TRIGGER 'profOccupe' BEFORE INSERT ON 'Cours'
   for each row
-DECLARE
-CURSOR C1 IS SELECT * FROM Cours where id_Enseignant = :new.id_Enseignant;
 BEGIN
-  FOR item in C1 LOOP
-	if :new.debut>=item.debut  and :new.debut<item.fin then
-		RAISE_APPLICATION_ERROR ( -20003, 'Enseignant déjà programmé sur un autre cours') ;
+DECLARE debutT DATETIME;
+DECLARE finT DATETIME;
+DECLARE done BOOL DEFAULT FALSE;
+DECLARE C1 CURSOR FOR SELECT debut,fin FROM Cours where id_Enseignant = new.id_Enseignant;
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET done := TRUE;
+   OPEN C1;
+   read_loop: LOOP
+   	FETCH C1 INTO debutT,finT;
+    	IF done THEN
+  	  	CLOSE C1;
+             	LEAVE read_loop;
+        END IF;
+	if new.debut>=debutT  and new.debut<finT then
+           signal sqlstate '20001' set message_text = 'Enseignant déjà programmé sur un autre cours';     
 	end if;
-  END LOOP;
-End;
-/
+    end LOOP;
+    
+     if new.fin>debutT  and new.fin<=finT then
+           signal sqlstate '20002' set message_text = 'Enseignant déjà programmé sur un autre cours';     
+	end if;
+    
+    if new.fin<=debutT  and new.fin>=finT then
+           signal sqlstate '20003' set message_text = 'Enseignant déjà programmé sur un autre cours';     
+	end if;
+     
+END
 
-create or replace
-trigger capaciteSalle
-  BEFORE INSERT
-  ON Cours
+CREATE TRIGGER 'capaciteSalle' BEFORE INSERT ON 'Cours'
   for each row
-Declare
-	capaciteSalle number;
-	capaciteGroupe number;
 BEGIN
-	select capacite into capaciteSalle from Salle where id = :new.id_Salle;
-	select capacite into capaciteGroupe from Groupe where id = :new.id_Groupe;
+DECLARE capaciteSalle INTEGER;
+DECLARE capaciteGroupe INTEGER;
+	select capacite into capaciteSalle from Salle where id = new.id_Salle;
+	select capacite into capaciteGroupe from Groupe where id=new.id_Groupe;
 	if capaciteSalle<capaciteGroupe then
-		RAISE_APPLICATION_ERROR ( -20005, 'Salle trop petite pour la taille du groupe') ;
+		signal sqlstate '20010' set message_text = 'Salle trop petite pour la taille du groupe';
 	end if;
-End;
-/
+End
 
 create or replace
 trigger coursTP
