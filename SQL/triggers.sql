@@ -4,16 +4,26 @@
 
 CREATE TRIGGER `SalleOccupe` BEFORE INSERT ON `Cours`
  FOR EACH ROW BEGIN
-DECLARE debut DATETIME;
-DECLARE fin DATETIME;
+BEGIN
+DECLARE debutT DATETIME;
+DECLARE finT DATETIME;
+DECLARE done BOOL DEFAULT FALSE;
 DECLARE C1 CURSOR FOR SELECT debut,fin FROM Cours where id_Salle = new.id_Salle;
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET done := TRUE;
    OPEN C1;
-   FETCH C1 INTO debut,fin;
-	if new.debut>=debut  and new.debut<fin then
+   read_loop: LOOP
+   	FETCH C1 INTO debutT,finT;
+    	IF done THEN
+  	  		CLOSE C1;
+             LEAVE read_loop;
+        END IF;
+   
+	if new.debut>=debutT  and new.debut<finT then
            signal sqlstate '20000' set message_text = 'Salle déja prise dans la tranche d horaire demandé!';     
 	end if;
-     CLOSE C1;
-End
+    end LOOP;
+     
+END
 
 create or replace
 trigger groupeOccupe
