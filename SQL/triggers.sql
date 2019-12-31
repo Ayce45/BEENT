@@ -3,9 +3,8 @@
 #------------------------------------------------------------
 
 #Trigger empechant deux cours différents dans la même salle
-CREATE TRIGGER `SalleOccupe` BEFORE INSERT ON `Cours`
- FOR EACH ROW 
-BEGIN
+CREATE TRIGGER `SalleOccupe` BEFORE INSERT ON `cours`
+FOR EACH ROW BEGIN
 DECLARE debutT DATETIME;
 DECLARE finT DATETIME;
 DECLARE done BOOL DEFAULT FALSE;
@@ -31,7 +30,6 @@ DECLARE CONTINUE HANDLER FOR NOT FOUND SET done := TRUE;
     if new.debut<=debutT  and new.fin>=finT then
            signal sqlstate '20002' set message_text = 'Salle déja prise dans la tranche d horaire demandé!';     
 	end if;
-     
 END
 
 #Trigger empechant un groupe d'avoir 2 cours en même temps
