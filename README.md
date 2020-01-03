@@ -1,6 +1,13 @@
 <h1 align="center">Bienvenue dans BEENT 👋</h1>
 
-> Gestion d'emploi du temps sous Symphony
+> Gestion d'emploi du temps sous Symfony 4
+
+## Contexte
+Conception intégral d'un outil de gestion d'emploi du temps pour la section L3 MIAGE.
+#### Version 1 (Semestre 5) :
+- Base de donnée
+#### Version 2 (Semestre 6) :
+- WEB
 
 ## Equipe
  - 👤 Baptiste MESSIN 
@@ -44,7 +51,7 @@ Interface {
  - Interface : Adobe XD
 
 ## Interface
-![Interface](https://user-images.githubusercontent.com/32338891/69720804-b95aae00-1113-11ea-827b-029cca20cc23.png)
+![Interface](https://user-images.githubusercontent.com/32338891/71740679-2e30ae80-2e5d-11ea-9696-a5967ba4fd61.png)
 
 ## MCD
 ![BEENT](https://user-images.githubusercontent.com/32338891/70323247-9c695d80-182c-11ea-8570-f6fd05b15ad3.png)
