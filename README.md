@@ -46,10 +46,15 @@ Interface {
   `Image : INTERFACE/*.png`
 }
 
+Planification {
+  `Fichier : GANTT/BEENT.gantt, Image : GANTT/*.png`
+}
+
 ## Outils
  - MCD : JMerise 
  - Requête : phpMyAdmin 
  - Interface : Adobe XD, HTML
+ - Planification : GanttProject
 
 ## Interface
 ![Interface](https://user-images.githubusercontent.com/32338891/71740679-2e30ae80-2e5d-11ea-9696-a5967ba4fd61.png)
