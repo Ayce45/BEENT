@@ -22,7 +22,8 @@ Github {
 
 MCD {
 `JMerise : MCD/BEENT.mcd,`
-`Image : MCD/BEENT.jpg`
+`Image MCD : MCD/MCD.png`
+`Image MLD : MCD/MLD.png`
 }
 
 Requête {
