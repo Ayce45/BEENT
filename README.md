@@ -47,7 +47,7 @@ Interface {
 }
 
 Planification {
-  `Fichier : GANTT/BEENT.gantt, Image : GANTT/*.png`
+  `Fichier : GANTT/BEENT.gan, Image : GANTT/*.png`
 }
 
 ## Outils
