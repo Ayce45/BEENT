@@ -1,14 +1,6 @@
 # Projet 8
-
-> Gestion d'emploi du temps sous Symfony 4
-
 ## Contexte
-Conception intégral d'un outil de gestion d'emploi du temps pour la section L3 MIAGE.
-
-#### Version 1 (Semestre 5) :
-- Base de donnée
-#### Version 2 (Semestre 6) :
-- WEB
+Conception intégrale d'un outil de gestion d'emploi du temps pour la section L3 MIAGE.
 
 ## Equipe
  - 👤 Baptiste MESSIN 
@@ -75,7 +67,6 @@ Planification {
 ![Tache](https://user-images.githubusercontent.com/32338891/71810446-b3d97780-3072-11ea-8e8d-92949cc9c96a.png)
 
 `Voir plus dans GANTT`
-
 
 ## Déclencheurs, requêtes
 #### Déclancheurs d'erreur :
