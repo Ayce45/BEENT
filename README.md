@@ -1,9 +1,10 @@
-<h1 align="center">Bienvenue dans BEENT 👋</h1>
+# Projet 8
 
 > Gestion d'emploi du temps sous Symfony 4
 
 ## Contexte
 Conception intégral d'un outil de gestion d'emploi du temps pour la section L3 MIAGE.
+
 #### Version 1 (Semestre 5) :
 - Base de donnée
 #### Version 2 (Semestre 6) :
@@ -14,6 +15,12 @@ Conception intégral d'un outil de gestion d'emploi du temps pour la section L3 
  - 👤 Nicolas GROSPERRIN 
  - 👤 Souleymane DIALLO
  - 👤 Evan JUGE
+
+## Outils
+ - MCD : JMerise 
+ - Requête : phpMyAdmin 
+ - Interface : Adobe XD, HTML
+ - Planification : GanttProject
 
 ## Arborescence
 Github {
@@ -31,7 +38,7 @@ Requête {
 }
 
 Déclencheurs {
-  `Fichier : SQL/trigger.sql`
+  `Fichier : SQL/triggers.sql`
 }
 
 Création de table {
@@ -50,17 +57,24 @@ Planification {
   `Fichier : GANTT/BEENT.gan, Image : GANTT/*.png`
 }
 
-## Outils
- - MCD : JMerise 
- - Requête : phpMyAdmin 
- - Interface : Adobe XD, HTML
- - Planification : GanttProject
-
 ## Interface
-![Interface](https://user-images.githubusercontent.com/32338891/71740679-2e30ae80-2e5d-11ea-9696-a5967ba4fd61.png)
+### Frontoffice
+![Fontoffice](https://user-images.githubusercontent.com/32338891/71740679-2e30ae80-2e5d-11ea-9696-a5967ba4fd61.png)
+### Backoffice
+![Backoffice](https://user-images.githubusercontent.com/32338891/71810628-16cb0e80-3073-11ea-8542-0df0c0a09397.png)
+
+`Voir plus dans INTERFACE`
 
 ## MCD
-![BEENT](https://user-images.githubusercontent.com/32338891/70323247-9c695d80-182c-11ea-8570-f6fd05b15ad3.png)
+![MCD](https://user-images.githubusercontent.com/32338891/70323247-9c695d80-182c-11ea-8570-f6fd05b15ad3.png)
+
+`Voir plus dans MCD`
+
+## Planification
+![Gantt](https://user-images.githubusercontent.com/32338891/71810456-ba67ef00-3072-11ea-93c8-5b616f2414a5.png)
+![Tache](https://user-images.githubusercontent.com/32338891/71810446-b3d97780-3072-11ea-8e8d-92949cc9c96a.png)
+
+`Voir plus dans GANTT`
 
 
 ## Déclencheurs, requêtes
@@ -71,6 +85,8 @@ Planification {
  - Si un cours dépasse le nombre d'heure prévu.
  - Si la capaciter de la salle est inferieure a la sommes des groupes du cours.
  - Si le type du cours est TP et que la salle n'as pas de pc.
+ 
+ `Voir le SQL dans SQL/triggers.sql`
 
 #### Requêtes :
  - Afficher les cours de la semaine.
@@ -81,3 +97,5 @@ Planification {
  - Afficher si il y a un CC ou CT cette semaine.
  - Afficher les cours de `type` de la semaine.
  - Afficher les cours en erreur.
+ 
+  `Voir le SQL dans SQL/select.sql`
