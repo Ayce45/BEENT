@@ -96,6 +96,5 @@ Planification {
  - Afficher le nombre d'heure de TP,TD,CM.
  - Afficher si il y a un CC ou CT cette semaine.
  - Afficher les cours de `type` de la semaine.
- - Afficher les cours en erreur.
  
   `Voir le SQL dans SQL/select.sql`
