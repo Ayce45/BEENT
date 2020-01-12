@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost
--- Généré le :  sam. 07 déc. 2019 à 20:16
--- Version du serveur :  10.4.8-MariaDB
--- Version de PHP :  7.1.33
+-- Hôte : 127.0.0.1:3306
+-- Généré le :  Dim 12 jan. 2020 à 10:57
+-- Version du serveur :  5.7.23
+-- Version de PHP :  7.2.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,14 +21,16 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `beent`
 --
+CREATE DATABASE IF NOT EXISTS `beent` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `beent`;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Annee`
+-- Structure de la table `annee`
 --
 
-CREATE TABLE `Annee` (
+CREATE TABLE `annee` (
   `id` int(11) NOT NULL,
   `code` varchar(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -36,28 +38,28 @@ CREATE TABLE `Annee` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Classe`
+-- Structure de la table `classe`
 --
 
-CREATE TABLE `Classe` (
+CREATE TABLE `classe` (
   `id` int(11) NOT NULL,
   `code` int(11) DEFAULT NULL,
-  `id_Filiere` int(11) NOT NULL
+  `id_Filiere` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Cours`
+-- Structure de la table `cours`
 --
 
-CREATE TABLE `Cours` (
+CREATE TABLE `cours` (
   `id` int(11) NOT NULL,
-  `id_Enseignant` int(11) NOT NULL,
-  `id_Salle` int(11) NOT NULL,
-  `id_Matiere` int(11) NOT NULL,
-  `id_Groupe` int(11) NOT NULL,
-  `id_Type` int(11) NOT NULL,
+  `id_Enseignant` int(11) DEFAULT NULL,
+  `id_Salle` int(11) DEFAULT NULL,
+  `id_Matiere` int(11) DEFAULT NULL,
+  `id_Groupe` int(11) DEFAULT NULL,
+  `id_Type` int(11) DEFAULT NULL,
   `debut` datetime DEFAULT NULL,
   `fin` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -65,38 +67,34 @@ CREATE TABLE `Cours` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Enseignant`
+-- Structure de la table `enseignant`
 --
 
-CREATE TABLE `Enseignant` (
+CREATE TABLE `enseignant` (
   `id` int(11) NOT NULL,
-  `nom` varchar(150) DEFAULT NULL,
-  `prenom` varchar(150) DEFAULT NULL,
-  `rue` varchar(150) NOT NULL,
-  `cp` varchar(5) NOT NULL,
-  `ville` varchar(75) NOT NULL,
-  `tel` varchar(15) DEFAULT NULL,
-  `email` varchar(150) DEFAULT NULL
+  `nom` varchar(150) NOT NULL,
+  `prenom` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Enseignant_Matiere`
+-- Structure de la table `enseignant_matiere`
 --
 
-CREATE TABLE `Enseignant_Matiere` (
+CREATE TABLE `enseignant_matiere` (
   `id` int(11) NOT NULL,
+  `id_Matiere` int(11) NOT NULL,
   `id_Enseignant` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Filiere`
+-- Structure de la table `filiere`
 --
 
-CREATE TABLE `Filiere` (
+CREATE TABLE `filiere` (
   `id` int(11) NOT NULL,
   `libelle` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -104,23 +102,23 @@ CREATE TABLE `Filiere` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Groupe`
+-- Structure de la table `groupe`
 --
 
-CREATE TABLE `Groupe` (
+CREATE TABLE `groupe` (
   `id` int(11) NOT NULL,
-  `code` int(11) DEFAULT NULL,
-  `capacite` int(11) DEFAULT NULL,
+  `code` varchar(11) NOT NULL,
+  `capacite` int(11) NOT NULL,
   `id_Classe` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Matiere`
+-- Structure de la table `matiere`
 --
 
-CREATE TABLE `Matiere` (
+CREATE TABLE `matiere` (
   `id` int(11) NOT NULL,
   `libelle` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -128,11 +126,12 @@ CREATE TABLE `Matiere` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Matiere_Semestre`
+-- Structure de la table `matiere_semestre`
 --
 
-CREATE TABLE `Matiere_Semestre` (
+CREATE TABLE `matiere_semestre` (
   `id` int(11) NOT NULL,
+  `id_Matiere` int(11) NOT NULL,
   `id_Semestre` int(11) NOT NULL,
   `id_Filiere` int(11) NOT NULL,
   `id_Type` int(11) NOT NULL,
@@ -142,10 +141,10 @@ CREATE TABLE `Matiere_Semestre` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Salle`
+-- Structure de la table `salle`
 --
 
-CREATE TABLE `Salle` (
+CREATE TABLE `salle` (
   `id` int(11) NOT NULL,
   `code` varchar(150) DEFAULT NULL,
   `capacite` int(11) DEFAULT NULL,
@@ -155,10 +154,10 @@ CREATE TABLE `Salle` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Semestre`
+-- Structure de la table `semestre`
 --
 
-CREATE TABLE `Semestre` (
+CREATE TABLE `semestre` (
   `id` int(11) NOT NULL,
   `code` int(11) NOT NULL,
   `id_Annee` int(11) NOT NULL
@@ -167,10 +166,10 @@ CREATE TABLE `Semestre` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Type`
+-- Structure de la table `type`
 --
 
-CREATE TABLE `Type` (
+CREATE TABLE `type` (
   `id` int(11) NOT NULL,
   `libelle` varchar(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -180,22 +179,22 @@ CREATE TABLE `Type` (
 --
 
 --
--- Index pour la table `Annee`
+-- Index pour la table `annee`
 --
-ALTER TABLE `Annee`
+ALTER TABLE `annee`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `Classe`
+-- Index pour la table `classe`
 --
-ALTER TABLE `Classe`
+ALTER TABLE `classe`
   ADD PRIMARY KEY (`id`),
   ADD KEY `Classe_Filiere_FK` (`id_Filiere`);
 
 --
--- Index pour la table `Cours`
+-- Index pour la table `cours`
 --
-ALTER TABLE `Cours`
+ALTER TABLE `cours`
   ADD PRIMARY KEY (`id`),
   ADD KEY `Cours_Enseignant_FK` (`id_Enseignant`),
   ADD KEY `Cours_Salle0_FK` (`id_Salle`),
@@ -204,127 +203,143 @@ ALTER TABLE `Cours`
   ADD KEY `Cours_Type3_FK` (`id_Type`);
 
 --
--- Index pour la table `Enseignant`
+-- Index pour la table `enseignant`
 --
-ALTER TABLE `Enseignant`
+ALTER TABLE `enseignant`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `Enseignant_Matiere`
+-- Index pour la table `enseignant_matiere`
 --
-ALTER TABLE `Enseignant_Matiere`
-  ADD PRIMARY KEY (`id`,`id_Enseignant`),
-  ADD KEY `Enseignant_Matiere_Enseignant0_FK` (`id_Enseignant`);
+ALTER TABLE `enseignant_matiere`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_Enseignant` (`id_Enseignant`),
+  ADD KEY `id_Matiere` (`id_Matiere`);
 
 --
--- Index pour la table `Filiere`
+-- Index pour la table `filiere`
 --
-ALTER TABLE `Filiere`
+ALTER TABLE `filiere`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `Groupe`
+-- Index pour la table `groupe`
 --
-ALTER TABLE `Groupe`
+ALTER TABLE `groupe`
   ADD PRIMARY KEY (`id`),
   ADD KEY `Groupe_Classe_FK` (`id_Classe`);
 
 --
--- Index pour la table `Matiere`
+-- Index pour la table `matiere`
 --
-ALTER TABLE `Matiere`
+ALTER TABLE `matiere`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `Matiere_Semestre`
+-- Index pour la table `matiere_semestre`
 --
-ALTER TABLE `Matiere_Semestre`
-  ADD PRIMARY KEY (`id`,`id_Semestre`,`id_Filiere`,`id_Type`),
+ALTER TABLE `matiere_semestre`
+  ADD PRIMARY KEY (`id`) USING BTREE,
   ADD KEY `Matiere_Semestre_Semestre0_FK` (`id_Semestre`),
   ADD KEY `Matiere_Semestre_Filiere1_FK` (`id_Filiere`),
-  ADD KEY `Matiere_Semestre_Type2_FK` (`id_Type`);
+  ADD KEY `Matiere_Semestre_Type2_FK` (`id_Type`),
+  ADD KEY `Matiere_Semestre_Matiere_FK` (`id_Matiere`);
+
 
 --
--- Index pour la table `Salle`
+-- Index pour la table `salle`
 --
-ALTER TABLE `Salle`
+ALTER TABLE `salle`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `Semestre`
+-- Index pour la table `semestre`
 --
-ALTER TABLE `Semestre`
+ALTER TABLE `semestre`
   ADD PRIMARY KEY (`id`),
   ADD KEY `Semestre_Annee_FK` (`id_Annee`);
 
 --
--- Index pour la table `Type`
+-- Index pour la table `type`
 --
-ALTER TABLE `Type`
+ALTER TABLE `type`
   ADD PRIMARY KEY (`id`);
+
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
 --
 
 --
--- AUTO_INCREMENT pour la table `Annee`
+-- AUTO_INCREMENT pour la table `annee`
 --
-ALTER TABLE `Annee`
+ALTER TABLE `annee`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `Classe`
+-- AUTO_INCREMENT pour la table `classe`
 --
-ALTER TABLE `Classe`
+ALTER TABLE `classe`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `Cours`
+-- AUTO_INCREMENT pour la table `cours`
 --
-ALTER TABLE `Cours`
+ALTER TABLE `cours`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `Enseignant`
+-- AUTO_INCREMENT pour la table `enseignant`
 --
-ALTER TABLE `Enseignant`
+ALTER TABLE `enseignant`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `Filiere`
+-- AUTO_INCREMENT pour la table `enseignant_matiere`
 --
-ALTER TABLE `Filiere`
+ALTER TABLE `enseignant_matiere`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `Groupe`
+-- AUTO_INCREMENT pour la table `filiere`
 --
-ALTER TABLE `Groupe`
+ALTER TABLE `filiere`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `Matiere`
+-- AUTO_INCREMENT pour la table `groupe`
 --
-ALTER TABLE `Matiere`
+ALTER TABLE `groupe`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `Salle`
+-- AUTO_INCREMENT pour la table `matiere`
 --
-ALTER TABLE `Salle`
+ALTER TABLE `matiere`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `Semestre`
+-- AUTO_INCREMENT pour la table `matiere_semestre`
 --
-ALTER TABLE `Semestre`
+ALTER TABLE `matiere_semestre`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `Type`
+-- AUTO_INCREMENT pour la table `salle`
 --
-ALTER TABLE `Type`
+ALTER TABLE `salle`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `semestre`
+--
+ALTER TABLE `semestre`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `type`
+--
+ALTER TABLE `type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -332,48 +347,48 @@ ALTER TABLE `Type`
 --
 
 --
--- Contraintes pour la table `Classe`
+-- Contraintes pour la table `classe`
 --
-ALTER TABLE `Classe`
-  ADD CONSTRAINT `Classe_Filiere_FK` FOREIGN KEY (`id_Filiere`) REFERENCES `Filiere` (`id`);
+ALTER TABLE `classe`
+  ADD CONSTRAINT `Classe_Filiere_FK` FOREIGN KEY (`id_Filiere`) REFERENCES `filiere` (`id`);
 
 --
--- Contraintes pour la table `Cours`
+-- Contraintes pour la table `cours`
 --
-ALTER TABLE `Cours`
-  ADD CONSTRAINT `Cours_Enseignant_FK` FOREIGN KEY (`id_Enseignant`) REFERENCES `Enseignant` (`id`),
-  ADD CONSTRAINT `Cours_Groupe2_FK` FOREIGN KEY (`id_Groupe`) REFERENCES `Groupe` (`id`),
-  ADD CONSTRAINT `Cours_Matiere1_FK` FOREIGN KEY (`id_Matiere`) REFERENCES `Matiere` (`id`),
-  ADD CONSTRAINT `Cours_Salle0_FK` FOREIGN KEY (`id_Salle`) REFERENCES `Salle` (`id`),
-  ADD CONSTRAINT `Cours_Type3_FK` FOREIGN KEY (`id_Type`) REFERENCES `Type` (`id`);
+ALTER TABLE `cours`
+  ADD CONSTRAINT `Cours_Enseignant_FK` FOREIGN KEY (`id_Enseignant`) REFERENCES `enseignant` (`id`),
+  ADD CONSTRAINT `Cours_Groupe2_FK` FOREIGN KEY (`id_Groupe`) REFERENCES `groupe` (`id`),
+  ADD CONSTRAINT `Cours_Matiere1_FK` FOREIGN KEY (`id_Matiere`) REFERENCES `matiere` (`id`),
+  ADD CONSTRAINT `Cours_Salle0_FK` FOREIGN KEY (`id_Salle`) REFERENCES `salle` (`id`),
+  ADD CONSTRAINT `Cours_Type3_FK` FOREIGN KEY (`id_Type`) REFERENCES `type` (`id`);
 
 --
--- Contraintes pour la table `Enseignant_Matiere`
+-- Contraintes pour la table `enseignant_matiere`
 --
-ALTER TABLE `Enseignant_Matiere`
-  ADD CONSTRAINT `Enseignant_Matiere_Enseignant0_FK` FOREIGN KEY (`id_Enseignant`) REFERENCES `Enseignant` (`id`),
-  ADD CONSTRAINT `Enseignant_Matiere_Matiere_FK` FOREIGN KEY (`id`) REFERENCES `Matiere` (`id`);
+ALTER TABLE `enseignant_matiere`
+  ADD CONSTRAINT `enseignant_matiere_ibfk_1` FOREIGN KEY (`id_Enseignant`) REFERENCES `enseignant` (`id`),
+  ADD CONSTRAINT `enseignant_matiere_ibfk_2` FOREIGN KEY (`id_Matiere`) REFERENCES `matiere` (`id`);
 
 --
--- Contraintes pour la table `Groupe`
+-- Contraintes pour la table `groupe`
 --
-ALTER TABLE `Groupe`
-  ADD CONSTRAINT `Groupe_Classe_FK` FOREIGN KEY (`id_Classe`) REFERENCES `Classe` (`id`);
+ALTER TABLE `groupe`
+  ADD CONSTRAINT `Groupe_Classe_FK` FOREIGN KEY (`id_Classe`) REFERENCES `classe` (`id`);
 
 --
--- Contraintes pour la table `Matiere_Semestre`
+-- Contraintes pour la table `matiere_semestre`
 --
-ALTER TABLE `Matiere_Semestre`
-  ADD CONSTRAINT `Matiere_Semestre_Filiere1_FK` FOREIGN KEY (`id_Filiere`) REFERENCES `Filiere` (`id`),
-  ADD CONSTRAINT `Matiere_Semestre_Matiere_FK` FOREIGN KEY (`id`) REFERENCES `Matiere` (`id`),
-  ADD CONSTRAINT `Matiere_Semestre_Semestre0_FK` FOREIGN KEY (`id_Semestre`) REFERENCES `Semestre` (`id`),
-  ADD CONSTRAINT `Matiere_Semestre_Type2_FK` FOREIGN KEY (`id_Type`) REFERENCES `Type` (`id`);
+ALTER TABLE `matiere_semestre`
+  ADD CONSTRAINT `Matiere_Semestre_Filiere1_FK` FOREIGN KEY (`id_Filiere`) REFERENCES `filiere` (`id`),
+  ADD CONSTRAINT `Matiere_Semestre_Matiere_FK` FOREIGN KEY (`id_Matiere`) REFERENCES `matiere` (`id`),
+  ADD CONSTRAINT `Matiere_Semestre_Semestre0_FK` FOREIGN KEY (`id_Semestre`) REFERENCES `semestre` (`id`),
+  ADD CONSTRAINT `Matiere_Semestre_Type2_FK` FOREIGN KEY (`id_Type`) REFERENCES `type` (`id`);
 
 --
--- Contraintes pour la table `Semestre`
+-- Contraintes pour la table `semestre`
 --
-ALTER TABLE `Semestre`
-  ADD CONSTRAINT `Semestre_Annee_FK` FOREIGN KEY (`id_Annee`) REFERENCES `Annee` (`id`);
+ALTER TABLE `semestre`
+  ADD CONSTRAINT `Semestre_Annee_FK` FOREIGN KEY (`id_Annee`) REFERENCES `annee` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

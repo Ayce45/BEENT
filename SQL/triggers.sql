@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mar. 31 déc. 2019 à 10:39
+-- Généré le :  Dim 12 jan. 2020 à 10:59
 -- Version du serveur :  5.7.23
 -- Version de PHP :  7.2.10
 
@@ -19,11 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  beent
+-- Base de données :  `beent`
 --
 
+-- --------------------------------------------------------
+
 --
--- Déclencheurs cours
+-- Déclencheurs `cours`
 --
 DELIMITER $$
 CREATE TRIGGER `SalleOccupe` BEFORE INSERT ON `cours` FOR EACH ROW BEGIN
